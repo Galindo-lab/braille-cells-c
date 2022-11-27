@@ -1,4 +1,8 @@
 
+// AUTHOR: Luis Eduardo Galindo Amaya
+//   DATE: 27-11-2022
+//   DESC: Convertidor de texto a braile
+
 #include "utils.h"
 
 #define NUMBER_PREFIX 0
@@ -8,17 +12,16 @@
 struct braileCharater {
   unsigned char charset : 2;
   /*
-     charset al que pertenece el caracter
-
-     0. abecedario
-     1. carácter extendido
-     2. símbolo
-     3. indefinido
+     Charset al que pertenece el caracter
+     0. modificador
+     1. abecedario
+     2. abecedario extendido
+     3. simbolos
   */
 
   unsigned char character : 6;
   /*
-    puntos activos del caracter
+    Puntos activos del caracter
 
     1 4      0 3
     2 5  ->  1 4
@@ -35,56 +38,55 @@ BraileCharater modificadores[] = {
 };
 
 BraileCharater abecedario_normal[] = {
-    {0, 0b000000}, /* espacio */
-    {0, 0b000001}, /* a - 1 */
-    {0, 0b000011}, /* b - 2 */
-    {0, 0b001001}, /* c - 3 */
-    {0, 0b011001}, /* d - 4 */
-    {0, 0b010001}, /* e - 5 */
-    {0, 0b001011}, /* f - 6 */
-    {0, 0b011011}, /* g - 7 */
-    {0, 0b010011}, /* h - 8 */
-    {0, 0b001010}, /* i - 9 */
-    {0, 0b011010}, /* j - 0 */
-    {0, 0b011010}, /* k */
-    {0, 0b000111}, /* l */
-    {0, 0b001101}, /* m */
-    {0, 0b011101}, /* n */
-    {0, 0b010101}, /* o */
-    {0, 0b001111}, /* p */
-    {0, 0b011111}, /* q */
-    {0, 0b010111}, /* r */
-    {0, 0b001110}, /* s */
-    {0, 0b011110}, /* t */
-    {0, 0b100101}, /* u */
-    {0, 0b100111}, /* v */
-    {0, 0b111010}, /* w */
-    {0, 0b101101}, /* x */
-    {0, 0b111101}, /* y */
-    {0, 0b110101}  /* z */
+    {1, 0b000000}, /* espacio */
+    {1, 0b000001}, /* a - 1 */
+    {1, 0b000011}, /* b - 2 */
+    {1, 0b001001}, /* c - 3 */
+    {1, 0b011001}, /* d - 4 */
+    {1, 0b010001}, /* e - 5 */
+    {1, 0b001011}, /* f - 6 */
+    {1, 0b011011}, /* g - 7 */
+    {1, 0b010011}, /* h - 8 */
+    {1, 0b001010}, /* i - 9 */
+    {1, 0b011010}, /* j - 0 */
+    {1, 0b011010}, /* k */
+    {1, 0b000111}, /* l */
+    {1, 0b001101}, /* m */
+    {1, 0b011101}, /* n */
+    {1, 0b010101}, /* o */
+    {1, 0b001111}, /* p */
+    {1, 0b011111}, /* q */
+    {1, 0b010111}, /* r */
+    {1, 0b001110}, /* s */
+    {1, 0b011110}, /* t */
+    {1, 0b100101}, /* u */
+    {1, 0b100111}, /* v */
+    {1, 0b111010}, /* w */
+    {1, 0b101101}, /* x */
+    {1, 0b111101}, /* y */
+    {1, 0b110101}  /* z */
 };
-
 BraileCharater abecedario_extendido[] = {
-    {1, 0b110111}, /* á */
-    {1, 0b101110}, /* é */
-    {1, 0b001100}, /* í */
-    {1, 0b101100}, /* ó */
-    {1, 0b111110}, /* ú */
-    {1, 0b110011}, /* ü */
-    {1, 0b111011}, /* ñ */
+    {2, 0b110111}, /* á */
+    {2, 0b101110}, /* é */
+    {2, 0b001100}, /* í */
+    {2, 0b101100}, /* ó */
+    {2, 0b111110}, /* ú */
+    {2, 0b110011}, /* ü */
+    {2, 0b111011}, /* ñ */
 };
 
 BraileCharater signos[] = {
-    {2, 0b000100}, /* . */
-    {2, 0b000010}, /* , */
-    {2, 0b100010}, /* ¿? */
-    {2, 0b000110}, /* ; */
-    {2, 0b010110}, /* ¡! */
-    {2, 0b100110}, /* "" */
-    {2, 0b100011}, /* ( */
-    {2, 0b011100}, /* ) */
-    {2, 0b100100}, /* - */
-    {2, 0b010100}  /* * */
+    {3, 0b000100}, /* . */
+    {3, 0b000010}, /* , */
+    {3, 0b100010}, /* ¿? */
+    {3, 0b000110}, /* ; */
+    {3, 0b010110}, /* ¡! */
+    {3, 0b100110}, /* "" */
+    {3, 0b100011}, /* ( */
+    {3, 0b011100}, /* ) */
+    {3, 0b100100}, /* - */
+    {3, 0b010100}  /* * */
 };
 
 /**
@@ -106,22 +108,14 @@ char getPoint(BraileCharater chr, char pos) {
 }
 
 /**
- * Verifica que el chr representa un numero
+ * Verifica que el carácter representa un numero
  * @param carácter que se quiere validar
  * @return isNotNumeric
  */
 char isNumeric(char ch) { return ch >= '0' && ch <= '9'; }
 
 /**
- * Valida si chr *NO* es alguna de las letras del alfabeto
- * @warning solo funciona para minúsculas
- * @param carácter que se quiere validar
- * @return isNotAlphabetic
- */
-char isNotAlphabetic(char ch) { return ch < 'a' && ch > 'z'; }
-
-/**
- * Valida si chr es alguna de las letras del alfabeto
+ * Valida si el carácter es alguna de las letras del alfabeto
  * @warning solo funciona para minúsculas
  * @param carácter que se quiere validar
  * @return isNotAlphabetic
@@ -132,31 +126,34 @@ char isAlphabetic(char ch) {
 }
 
 /**
- * Validar si un caracter es mayuscula
+ * Validar si un carácter es mayúscula
  * @param caracter que se quiere validar
  * @return isCapital
  */
 char isCapital(char chr) {
-  if (isNotAlphabetic(chr)) {
-    /* no puede se mayuscula si no es caracter */
-    return 0;
-  }
+  if (isAlphabetic(chr))
+    return !(chr & 32);
 
-  return !(chr & 32);
+  /* no puede se mayuscula si no es caracter */
+  return 0;
 }
 
 BraileCharater charToBraile(char chr) {
   /* si es un numero */
-  if (isNumeric(chr))
+  if (isNumeric(chr)){
+    if(chr == '0')              /* la j=0 en braile */
+      return abecedario_normal['j' - 'a' + 1];
+    
     return abecedario_normal[chr - '0'];
+  }
 
-  /* si es un caracter */
-  chr = chr | 32; /* downcase */
-
-  if (isNotAlphabetic(chr) || chr == ' ')
-    /* validar que sea un caracter valido */
+  /* validar si esta en el alfabeto */
+  if (!isAlphabetic(chr) || chr == ' ')
+    /* Si no esta en el alfabeto se imprime un espacio */
     return abecedario_normal[0];
 
+  /* downcase */
+  chr = chr | 32;
   /* a = 97 pero en el arreglo espacio = 0 y a = 1*/
   return abecedario_normal[chr - 'a' + 1];
 }
@@ -181,25 +178,31 @@ void braile_character_print(BraileCharater chr) {
  * @return
  */
 void braile_string_print(char s[], size_t foo) {
+  /*
+    TODO:
+    - Soporte para caracteres: 'ñ','á','é','í','ó','ú' y 'ü'.
+    - Soporte para caracteres: '.',',','&','-',';','*'.
+  */
+
   char prev = '\0';
 
   for (size_t i = 0; i < foo; i++) {
-    char foo = s[i];
+    unsigned short curr = s[i];
 
-    if (isNumeric(foo) && !isNumeric(prev)) {
+    if (isNumeric(curr) && !isNumeric(prev)) {
       /* prefijo de numero  */
       printf("-NUM-\n");
       braile_character_print(modificadores[NUMBER_PREFIX]);
       goto print_char;
     }
 
-    if(isAlphabetic(foo) && isNumeric(prev)) {
+    if (isAlphabetic(curr) && isNumeric(prev)) {
       /* interruptor de numero */
       puts("-IDN-");
       braile_character_print(modificadores[NUMBER_INTERRUPTOR]);
     }
 
-    if (isCapital(s[i])) {
+    if (isCapital(curr)) {
       /* añadir el prefijo de las mayusculas */
       printf("-CAP-\n");
       braile_character_print(modificadores[UPCASE_PREFIX]);
@@ -207,18 +210,21 @@ void braile_string_print(char s[], size_t foo) {
     }
 
   print_char:
-    printf("--%c--\n", s[i]);
+    printf("--%c--\n", curr);
     braile_character_print(charToBraile(s[i]));
-    prev = s[i];
+    prev = curr;
   }
 }
 
 int main() {
 
-  printf("Size of braileCharater is %lu bytes\n",
+  printf("Tamaño del BraileCharater es: %lu bytes\n",
          sizeof(struct braileCharater));
 
-  char s[] = "1912A Entramos 456 en la ciudad de Toledo";
+  /* char s[] = "01912 Entramos en la ciudad de Toledo"; */
+
+  char s[] = "xilofoNo";
+  
   size_t foo = sizeof(s) / sizeof(s[0]) - 1; /* size sin \0 */
   braile_string_print(s, foo);
 
