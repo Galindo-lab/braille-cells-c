@@ -1,6 +1,10 @@
 
 #include "utils.h"
 
+#define NUMBER_PREFIX 0
+#define UPCASE_PREFIX 1
+#define NUMBER_INTERRUPTOR 2
+
 struct braileCharater {
   unsigned char charset : 2;
   /*
@@ -117,6 +121,17 @@ char isNumeric(char ch) { return ch >= '0' && ch <= '9'; }
 char isNotAlphabetic(char ch) { return ch < 'a' && ch > 'z'; }
 
 /**
+ * Valida si chr es alguna de las letras del alfabeto
+ * @warning solo funciona para minúsculas
+ * @param carácter que se quiere validar
+ * @return isNotAlphabetic
+ */
+char isAlphabetic(char ch) {
+  ch = ch | 32;
+  return ch >= 'a' && ch <= 'z';
+}
+
+/**
  * Validar si un caracter es mayuscula
  * @param caracter que se quiere validar
  * @return isCapital
@@ -166,22 +181,35 @@ void braile_character_print(BraileCharater chr) {
  * @return
  */
 void braile_string_print(char s[], size_t foo) {
+  char prev = '\0';
 
   for (size_t i = 0; i < foo; i++) {
+    char foo = s[i];
 
-    if (isNumeric(s[i])) {
+    if (isNumeric(foo) && !isNumeric(prev)) {
+      /* prefijo de numero  */
       printf("-NUM-\n");
-      braile_character_print(modificadores[0]);
+      braile_character_print(modificadores[NUMBER_PREFIX]);
+      goto print_char;
+    }
+
+    if(isAlphabetic(foo) && isNumeric(prev)) {
+      /* interruptor de numero */
+      puts("-IDN-");
+      braile_character_print(modificadores[NUMBER_INTERRUPTOR]);
     }
 
     if (isCapital(s[i])) {
       /* añadir el prefijo de las mayusculas */
       printf("-CAP-\n");
-      braile_character_print(modificadores[1]);
+      braile_character_print(modificadores[UPCASE_PREFIX]);
+      goto print_char;
     }
 
+  print_char:
     printf("--%c--\n", s[i]);
     braile_character_print(charToBraile(s[i]));
+    prev = s[i];
   }
 }
 
@@ -190,7 +218,7 @@ int main() {
   printf("Size of braileCharater is %lu bytes\n",
          sizeof(struct braileCharater));
 
-  char s[] = "1912 Entramos 456 en la ciudad de Toledo";
+  char s[] = "1912A Entramos 456 en la ciudad de Toledo";
   size_t foo = sizeof(s) / sizeof(s[0]) - 1; /* size sin \0 */
   braile_string_print(s, foo);
 
