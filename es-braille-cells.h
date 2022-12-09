@@ -160,7 +160,7 @@ const BrailleCell braille_char[] = {
  * @param dot_pos posición del punto
  * @return relieve del punto
  */
-char get_point(BrailleCell character, char dot_pos) {
+char get_dot(BrailleCell character, char dot_pos) {
   return (character.dots & 1 << dot_pos);
 }
 
