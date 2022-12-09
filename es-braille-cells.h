@@ -109,8 +109,13 @@ const BrailleCell braille_char[] = {
     {0, 0b101000}, /* 27: mayusculas */
     {0, 0b010000}, /* 28: interruptor de numero */
 
-    /* Segundo bloque de caracteres completo */
-    {0, 0b000000}, /* 29: espacio */
+    /* 
+       Segundo bloque de caracteres completo 
+
+       El espacio se representa con todos los bits activados
+       para que no se confunda con el caracter terminador.
+    */
+    {0, 0b111111}, /* 29: espacio */
     {0, 0b010110}, /* 30: ! */
     {0, 0b100110}, /* 31: " */
     {0, 0b111100}, /* 32: # */
@@ -162,6 +167,16 @@ const BrailleCell braille_char[] = {
  */
 char get_dot(BrailleCell character, char dot_pos) {
   return (character.dots & 1 << dot_pos);
+}
+
+/**
+ * Retorna el valor numerico de los relieves, está función
+ * se usa para guardar el caracter como numero
+ * @param  
+ * @return 
+ */
+char dots(BrailleCell character) {
+  return character.dots;
 }
 
 /**

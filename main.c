@@ -3,7 +3,7 @@
   DATE: 07-12-2022
   AUTHOR: Luis Eduardo Galindo Amaya
 
-  DESC: Ejemplos de como usar las funciones de 
+  DESC: Ejemplos de como usar las funciones de
   es-braille-cells.h
 */
 
@@ -17,14 +17,17 @@ void print_braille_string(char[]);
 int main() {
 
   /* para escribir dieresis se usa _ y para agregar acentos se usa ^ */
-  print_braille_string("El ping_uino tocaba la guitarra en la ciudad de Toledo.");
+  print_braille_string(
+      "El ping_uino tocaba la guitarra en la ciudad de Toledo.");
   putchar('\n');
 
   /* para escribir la ñ se usa ~n */
-  print_braille_string("Quiere la fugaz boca exhausta vid, kiwi, pi~na y jam^on.");
+  print_braille_string(
+      "Quiere la fugaz boca exhausta vid, kiwi, pi~na y jam^on.");
   putchar('\n');
-  
-  print_braille_string("Fabio me exige, sin tapujos, que a~nada cerveza al whisky.");
+
+  print_braille_string(
+      "Fabio me exige, sin tapujos, que a~nada cerveza al whisky.");
   putchar('\n');
 
   print_braille_string("los numeros son 0,1,2,3,4,5,6,7,8,9,10");
@@ -32,11 +35,9 @@ int main() {
 
   print_braille_string("interruptor de numero 0xf1120a0");
   putchar('\n');
-    
+
   return 0;
 }
-
-
 
 /**
  * Imprime la representacion en braille del caracter
@@ -44,17 +45,17 @@ int main() {
  */
 void print_braille_character(BrailleCell chr) {
 
-  if(chr.dots == 0) {
+  if (chr.dots == 0) {
     putchar('.');
   } else {
-    for(int i=0;i < 6; i++){
-      if(get_dot(chr,i))
-        printf("%c", i+'1');
+    for (int i = 0; i < 6; i++) {
+      if (get_dot(chr, i))
+        printf("%c", i + '1');
     }
   }
 
   putchar(' ');
-  
+
   /* for (int i = 0; i < 3; i++) { */
   /*   putchar(' '); */
   /*   putchar(get_point(chr, i) ? 'o' : '.'); */
@@ -64,21 +65,19 @@ void print_braille_character(BrailleCell chr) {
   /* } */
 }
 
-
 /**
  * Convierte un string ascii en su representacion braille. Al
  * no tener caracteres especiales esta funcion tiene prefijos
  * para ingresar acentos y la letra 'ñ'
- * 
- * para ingresar los acentos solo escribe '^' antes del la 
+ *
+ * para ingresar los acentos solo escribe '^' antes del la
  * vocal que quieres.
  *
  * para ingresa la 'ñ' solo tienes que poner ~n.
  *
  * para ingresar 'ü' solo tienes que poner _u.
  *
- * @param
- * @return
+ * @param str
  */
 void print_braille_string(char str[]) {
   char prev;
@@ -89,31 +88,30 @@ void print_braille_string(char str[]) {
     curr = str[i];
 
     if (curr == '^' || curr == '~' || curr == '_') {
-      /* 
+      /*
          prefijos de caracter *NO* se imprimen, si un caracter
          de los anteriores aparece en el string significa que es
          un caracter especial:
 
          [^]: es para acentos (á, é, í, ó, ú)
-         [~]: para la ñ 
-         [_]: para las dieresis (ü)     
+         [~]: para la ñ
+         [_]: para las dieresis (ü)
       */
       continue;
     }
-    
+
     if (is_capital(curr)) {
-      /* 
-         los caracteres en braille se vuelven mayúsculas al 
+      /*
+         los caracteres en braille se vuelven mayúsculas al
          con el prefijo mayúscula.
        */
       /* printf("-CAP-\n"); */
       print_braille_character(braille_char[UPCASE_PREFIX]);
-      curr = str[i] | 32;       /* minuscula */
+      curr = str[i] | 32; /* minuscula */
     }
 
-    
     if (prev == '_') {
-      /* 
+      /*
          prefijo dieresis
        */
       switch (curr) {
@@ -124,10 +122,9 @@ void print_braille_string(char str[]) {
       }
       continue;
     }
-    
-    
+
     if (prev == '~') {
-      /* 
+      /*
          prefijo para ñ
        */
       switch (curr) {
@@ -139,7 +136,6 @@ void print_braille_string(char str[]) {
       continue;
     }
 
-    
     if (prev == '^') {
       /*
         prefijo para acentos
@@ -183,7 +179,7 @@ void print_braille_string(char str[]) {
     }
 
     if (is_alphabetic(curr) && is_numeric(prev)) {
-      /* 
+      /*
          interruptor numerico braille
       */
       /* puts("-IDN-"); */
