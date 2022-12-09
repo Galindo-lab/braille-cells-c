@@ -41,6 +41,9 @@
   medio de enmascaramiento de bits.
 */
 
+#ifndef BrailleCells
+#define BrailleCells
+
 typedef struct {
   unsigned char charset : 2; /* no tiene uso */
   unsigned char dots : 6;    /* los 6 puntos del caracter */
@@ -50,8 +53,17 @@ typedef struct {
   Caracteres especiales para el braille
 */
 
+#define ACCENT_N 52
+#define ACCENT_A 53
+#define ACCENT_E 54
+#define ACCENT_I 55
+#define ACCENT_O 56
+#define ACCENT_U 57
+#define UMLAUT_U 58
+
 #define SPACE 29
-#define COLON 44
+#define COLON 45
+
 #define NUMBER_PREFIX 26
 #define UPCASE_PREFIX 27
 #define NUMBER_INTERRUPTOR 28
@@ -102,9 +114,9 @@ const BrailleCell braille_char[] = {
     {0, 0b010110}, /* 30: ! */
     {0, 0b100110}, /* 31: " */
     {0, 0b111100}, /* 32: # */
-    {0, 0b000000}, /* 33: $ (Espacio vacio) */
-    {0, 0b000000}, /* 34: % (Espacio vacio) */
-    {0, 0b101111}, /* 35: & */
+    {0, 0b110010}, /* 33: $ */
+    {0, 0b111000}, /* 34: % */
+    {0, 0b111111}, /* 35: & */
     {0, 0b100110}, /* 36: ' */
     {0, 0b100011}, /* 37: ( */
     {0, 0b011100}, /* 38: ) */
@@ -113,7 +125,7 @@ const BrailleCell braille_char[] = {
     {0, 0b000010}, /* 41: , */
     {0, 0b100100}, /* 42: - (menos) */
     {0, 0b000100}, /* 43: . (punto)*/
-    {0, 0b110010}, /* 44: / */
+    {0, 0b001100}, /* 44: / */
 
     /* Tercer bloque de caracteres completo */
     {0, 0b010010}, /* 45: : */
@@ -133,8 +145,6 @@ const BrailleCell braille_char[] = {
     {0, 0b111110}, /* 57: ú */
     {0, 0b110011}, /* 58: ü */
 };
-
-/* {0, 0b100100}, /\* 47: - (guion)  *\/ */
 
 /**
  * Retorna el estado del punto en cada posición, las
@@ -197,15 +207,15 @@ char is_capital(unsigned int chr) {
 /**
  * Convierte un carácter ascii en su equivalente en BrailleCell
  * Si no existe un equivalente al carácter en braille se inserta
- * Un espacio vació 
+ * Un espacio vació
  * @param  chr caracter a convertir
  * @return el caracter en braille
  */
 BrailleCell char_to_braille(unsigned int chr) {
-  
+
   if (is_alphabetic(chr)) {
     /* caracteres alfabeticos */
-    return braille_char[(chr | 32) -'a'];
+    return braille_char[(chr | 32) - 'a'];
   }
 
   if (is_numeric(chr)) {
@@ -214,7 +224,7 @@ BrailleCell char_to_braille(unsigned int chr) {
     if (chr == '0')
       return braille_char[9]; /* caracter j */
 
-    return braille_char[chr - '0'];
+    return braille_char[chr - '1'];
   }
 
   if (chr >= ' ' && chr <= '/') {
@@ -224,9 +234,11 @@ BrailleCell char_to_braille(unsigned int chr) {
 
   if (chr >= ':' && chr <= '@') {
     /* tercer bloque de caracteres */
-    return braille_char[chr - ' ' + COLON];
+    return braille_char[chr - ':' + COLON];
   }
 
   /* si el caracter es desconocido retorna espacio */
   return braille_char[SPACE];
 }
+
+#endif
