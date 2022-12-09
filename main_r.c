@@ -66,6 +66,7 @@ BraileCharater abecedario_normal[] = {
     {1, 0b111101}, /* y */
     {1, 0b110101}  /* z */
 };
+
 BraileCharater abecedario_extendido[] = {
     {2, 0b110111}, /* á */
     {2, 0b101110}, /* é */
