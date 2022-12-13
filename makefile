@@ -1,5 +1,5 @@
 
-FILE = converter
+FILE = main
 EXEC = a.out
 SOFILE = libtest
 

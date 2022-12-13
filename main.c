@@ -9,6 +9,8 @@
  * cantidad de memoria posible.
 */
 
+#include <stdio.h>
+
 /**
  * Tamaño del buffer de salida
  * NOTE: el buffer debe terminar con [\0]
@@ -143,14 +145,25 @@ int str_to_braille(char input_buff[], char output_buff[]);
 void display_braille_str(char input_buffer[]);
 
 int main() {
-
   char buffer_output[OUTPUT_BUFFER_SIZE];
-  char buffer_input[] = "Muy Feliz Cumple!!!";
+  char textos_de_prueba[5][255] = {
+    "El ping_uino tocaba la guitarra en la ciudad de Toledo.", /* las dieresis se agregan con _ */
+    "Quiere la fugaz boca exhausta vid, kiwi, pi~na y jam^on.", /* las eñes con ~ y los acentos con ^ */
+    "Fabio me exige, sin tapujos, que a~nada cerveza al whisky.",
+    "los numeros son 0,1,2,3,4,5,6,7,8,9,10",
+    "interruptor de numero 0xf1120a0"
+  };
+  
+  
 
-  int b = str_to_braille(buffer_input, buffer_output);
-  printf("%d\n", b);
+  for(int i=0;i < 5; i++){
+    str_to_braille(textos_de_prueba[i], buffer_output);
+    printf("%s \n", textos_de_prueba[i]);
+    display_braille_str(buffer_output);
+    puts("\n");
+  }
 
-  display_braille_str(buffer_output);
+  
 
   putchar('\n');
   return 0;
