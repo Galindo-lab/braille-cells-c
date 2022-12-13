@@ -1,0 +1,79 @@
+
+#+TITLE:  braille-cells-c
+#+SUBTITLE: Convert text to braille
+#+AUTHOR: Luis Eduardo Galindo Amaya
+#+DATE:   13-12-2022
+
+* Sistema De Lectoescritura Braille
+Para escribir en braille se utilizan seis puntos para
+representar los símbolos del alfabeto, los números y 
+caracteres de control.
+
+Cada carácter esta compuesto de seis puntos, para poder
+espesificar los relieves del caracter usualmente se utiliza 
+siguiente nomenclatura:
+
+#+begin_src 
+1 4
+2 5
+3 6
+#+end_src
+
+* Representar Los Caracteres
+Ademas de la forma con relieves o visual podemos representar 
+los caracteres mediante los numeros de sus relieves, ejemplo:
+
+** Caracter J:
+#+begin_src 
+. o     
+o o --> 245
+. .
+#+end_src
+
+** Caracter R:
+#+begin_src 
+o .     
+o o --> 1235
+o .
+#+end_src
+          
+* Sistema de BrailleCells
+Podemos representar los relieves del carácter mediante el 
+sistema binario, de manera que el bit menos significativo 
+represente el relieve con la posición mas baja:
+
+- el relieve 1 es el bit 0
+- el relieve 2 es el bit 1
+- el relieve 3 es el bit 2
+- etc...
+
+#+begin_src 
+1 4       0 3
+2 5  -->  1 4
+3 6       2 5
+#+end_src
+
+Entonces en memoria los caracteres se verian representados 
+de la siguiente manera:
+
+| Caracter | Braile | BraileCell |
+|----------+--------+------------|
+| a        |      1 |     000001 |
+| b        |     12 |     000011 |
+| j        |    245 |     011010 |
+| r        |   1235 |     010111 |
+
+* Extraer los relieves del caracter 
+Para conocer el estado de cada relieve solo basta con crear una
+mascara con la posicion del relieve que nos interesa conocer, 
+es importante recordar que en BraileCells
+[[Sistema de BrailleCells][los relieves empiezan desde la posicion cero]]:
+
+#+begin_src 
+Representacion & (1 << Posicion del relieve)
+#+end_src
+
+- =Representacion= :: binaria del caracter.
+- =&= :: operacion =AND= lógica.
+- =1 << Posicion del relieve= :: uno desplazado la posicion del relieve posiciones a la izquierda.
+
