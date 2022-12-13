@@ -10,7 +10,7 @@ representar los símbolos del alfabeto, los números y
 caracteres de control.
 
 Cada carácter esta compuesto de seis puntos, para poder
-espesificar los relieves del caracter usualmente se utiliza 
+especificar los relieves del carácter usualmente se utiliza 
 siguiente nomenclatura:
 
 #+begin_src 
@@ -20,17 +20,17 @@ siguiente nomenclatura:
 #+end_src
 
 * Representar Los Caracteres
-Ademas de la forma con relieves o visual podemos representar 
-los caracteres mediante los numeros de sus relieves, ejemplo:
+Además de la forma con relieves o visual podemos representar 
+los caracteres mediante los números de sus relieves, ejemplo:
 
-** Caracter J:
+** Carácter J:
 #+begin_src 
 . o     
 o o --> 245
 . .
 #+end_src
 
-** Caracter R:
+** Carácter R:
 #+begin_src 
 o .     
 o o --> 1235
@@ -53,27 +53,27 @@ represente el relieve con la posición mas baja:
 3 6       2 5
 #+end_src
 
-Entonces en memoria los caracteres se verian representados 
+Entonces en memoria los caracteres se verían representados 
 de la siguiente manera:
 
-| Caracter | Braile | BraileCell |
-|----------+--------+------------|
-| a        |      1 |     000001 |
-| b        |     12 |     000011 |
-| j        |    245 |     011010 |
-| r        |   1235 |     010111 |
+| Carácter | Braille | BrailleCell |
+|----------+---------+-------------|
+| a        |       1 |      000001 |
+| b        |      12 |      000011 |
+| j        |     245 |      011010 |
+| r        |    1235 |      010111 |
 
-* Extraer los relieves del caracter 
+* Extraer los relieves del carácter 
 Para conocer el estado de cada relieve solo basta con crear una
-mascara con la posicion del relieve que nos interesa conocer, 
-es importante recordar que en BraileCells
-[[Sistema de BrailleCells][los relieves empiezan desde la posicion cero]]:
+mascara con la posición del relieve que nos interesa conocer, 
+es importante recordar que en BrailleCells
+[[Sistema de BrailleCells][los relieves empiezan desde la posición cero]]:
 
 #+begin_src 
-Representacion & (1 << Posicion del relieve)
+Representación & (1 << Posición del relieve)
 #+end_src
 
-- =Representacion= :: binaria del caracter.
-- =&= :: operacion =AND= lógica.
-- =1 << Posicion del relieve= :: uno desplazado la posicion del relieve posiciones a la izquierda.
+- =Representación= :: binaria del carácter.
+- =&= :: operación =AND= lógica.
+- =1 << Posición del relieve= :: uno desplazado la posición del relieve posiciones a la izquierda.
 
