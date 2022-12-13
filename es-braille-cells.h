@@ -11,10 +11,10 @@
   -----------------------BrailleCell----------------------------
 
   Para escribir en braille se utilizan seis puntos para
-  representar símbolos del alfabeto, los números y caracteres
-  de control.
+  representar los símbolos del alfabeto, los números y 
+  caracteres de control.
 
-  cada carácter esta compuestos de seis puntos, para hablar
+  Cada carácter esta compuestos de seis puntos, para hablar
   sobre los puntos en relieve del carácter se utiliza la
   siguiente nomenclatura:
 
@@ -22,10 +22,9 @@
                            2 5
                            3 6
 
-  podemos representar los relieves del carácter mediante el
-  sistema binario de numeración binario, de manera que el
-  bit menos significativo represente el relieve con la
-  posición mas baja:
+  Podemos representar los relieves del carácter mediante el
+  sistema binario, de manera que el bit menos significativo 
+  represente el relieve con la posición mas baja:
 
                       1 4       0 3
                       2 5  -->  1 4
@@ -70,8 +69,8 @@ typedef struct {
 
 /*
   Alfabeto, esta ordenado por grupos continuos en la
-  tabla del codigo ascii, esto para simplificar obtner un
-  caracter mediante una formula con los caracteres
+  tabla del código ascii, esto para simplificar obtener un
+  carácter mediante una formula con los caracteres
 */
 
 const BrailleCell braille_char[] = {
