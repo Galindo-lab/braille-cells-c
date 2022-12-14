@@ -1,8 +1,13 @@
 
-#+TITLE:  braille-cells-c
+#+LANGUAGE: es
+
+#+TITLE: braille-cells-c
 #+SUBTITLE: Convert text to braille
 #+AUTHOR: Luis Eduardo Galindo Amaya
-#+DATE:   13-12-2022
+#+DATE: 13-12-2022
+
+#+OPTIONS: toc:nil num:nil title:nil
+#+EXPORT_FILE_NAME: ../README.txt
 
 * Sistema De Lectoescritura Braille
 Para escribir en braille se utilizan seis puntos para
@@ -66,14 +71,10 @@ de la siguiente manera:
 * Extraer los relieves del carácter 
 Para conocer el estado de cada relieve solo basta con crear una
 mascara con la posición del relieve que nos interesa conocer, 
-es importante recordar que en BrailleCells
-[[Sistema de BrailleCells][los relieves empiezan desde la posición cero]]:
+cabe recordar que [[Sistema de BrailleCells][los relieves empiezan desde la posición cero]]:
 
-#+begin_src 
-Representación & (1 << Posición del relieve)
+#+begin_src c
+  char get_dot(BrailleCell character, char dot_pos) {
+    return (character.dots & 1 << dot_pos);
+  }
 #+end_src
-
-- =Representación= :: binaria del carácter.
-- =&= :: operación =AND= lógica.
-- =1 << Posición del relieve= :: uno desplazado la posición del relieve posiciones a la izquierda.
-
