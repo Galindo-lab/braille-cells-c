@@ -7,7 +7,7 @@
 #+DATE: 13-12-2022
 
 #+OPTIONS: toc:nil num:nil title:nil
-#+EXPORT_FILE_NAME: ../README.txt
+#+EXPORT_FILE_NAME: ../README.md
 
 * Sistema De Lectoescritura Braille
 Para escribir en braille se utilizan seis puntos para
@@ -42,7 +42,7 @@ o o --> 1235
 o .
 #+end_src
           
-* Sistema de BrailleCells
+* Sistema De Braillecells
 Podemos representar los relieves del carácter mediante el 
 sistema binario, de manera que el bit menos significativo 
 represente el relieve con la posición mas baja:
@@ -68,10 +68,10 @@ de la siguiente manera:
 | j        |     245 |      011010 |
 | r        |    1235 |      010111 |
 
-* Extraer los relieves del carácter 
+* Extraer Los Relieves Del Carácter 
 Para conocer el estado de cada relieve solo basta con crear una
 mascara con la posición del relieve que nos interesa conocer, 
-cabe recordar que [[Sistema de BrailleCells][los relieves empiezan desde la posición cero]]:
+cabe recordar que [[Sistema De Braillecells][los relieves empiezan desde la posición cero]]:
 
 #+begin_src c
   char get_dot(BrailleCell character, char dot_pos) {
