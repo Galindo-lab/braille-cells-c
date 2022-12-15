@@ -40,10 +40,10 @@ const BrailleCell braille_charset[] = {
     {0, 0b101000}, /* 27: mayusculas */
     {0, 0b010000}, /* 28: interruptor de numero */
 
-    /* Segundo bloque de caracteres completo
-       El espacio se representa con todos los bits activados
-       para que no se confunda con el caracter terminador. */
+    /* Segundo bloque de caracteres completo */
     {0, 0b111111}, /* 29: espacio */
+    /* El espacio se representa con todos los bits activados
+       para que no se confunda con el caracter terminador. */
     {0, 0b010110}, /* 30: ! */
     {0, 0b100110}, /* 31: " */
     {0, 0b111100}, /* 32: # */

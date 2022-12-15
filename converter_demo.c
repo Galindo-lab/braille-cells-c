@@ -3,8 +3,7 @@
 #include <stdio.h>
 
 /**
- * Tamaño del buffer de salida
- * NOTE: el buffer debe terminar con [\0]
+ * Tamaño del buffer de salida y salida
  */
 #define OUTPUT_BUFFER_SIZE 255
 
@@ -18,21 +17,32 @@ void put_braille_char(BrailleCell chr);
 
 /**
  * Imprime los caracteres del string
+ * 
  * @param str el string a imprimr
  */
 void display_braille_str(char str[]);
 
 /**
- * 
- * @param  
- * @return 
+ * extiende la funcion 'char_to_braille' agregando los 
+ * los caracteres acentuados y las dieresis. [^] para acentos
+ * [_] para dieresis [~] para la [ñ].
+ *
+ * @param character  
+ * @param modifier 
+ * @return Caracter en Brialle
  */
 BrailleCell get_char(char character, char modifier);
 
 /**
+ * Convierte una array de chars en Braille y pone el resultado 
+ * en el buffer de salida. el tamaño máximo del buffer esta 
+ * definido por OUTPUT_BUFFER_SIZE - 5.
+ * 
+ * NOTE: El buffer ouput termina con [\0]
  *
- * @param
- * @return
+ * @param input de tamaño OUTPUT_BUFFER_SIZE
+ * @param output de tamaño OUTPUT_BUFFER_SIZE
+ * @return 1 si hubo problemas durante la conversión
  */
 int str_to_braille(char input[], char output[]) ;
 

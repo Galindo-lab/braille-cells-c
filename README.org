@@ -7,9 +7,10 @@
 #+DATE: 13-12-2022
 
 #+OPTIONS: toc:nil num:nil title:nil
-#+EXPORT_FILE_NAME: ../README.md
+# #+EXPORT_FILE_NAME: ../README.md
 
-* Sistema De Lectoescritura Braille
+* braille-cells-c
+** Sistema De Lectoescritura Braille
 Para escribir en braille se utilizan seis puntos para
 representar los símbolos del alfabeto, los números y 
 caracteres de control.
@@ -24,25 +25,25 @@ siguiente nomenclatura:
 3 6
 #+end_src
 
-* Representar Los Caracteres
+** Representar Los Caracteres
 Además de la forma con relieves o visual podemos representar 
 los caracteres mediante los números de sus relieves, ejemplo:
 
-** Carácter J:
+*** Carácter J:
 #+begin_src 
 . o     
 o o --> 245
 . .
 #+end_src
 
-** Carácter R:
+*** Carácter R:
 #+begin_src 
 o .     
 o o --> 1235
 o .
 #+end_src
           
-* Sistema De Braillecells
+** Sistema De Braillecells
 Podemos representar los relieves del carácter mediante el 
 sistema binario, de manera que el bit menos significativo 
 represente el relieve con la posición mas baja:
@@ -68,7 +69,7 @@ de la siguiente manera:
 | j        |     245 |      011010 |
 | r        |    1235 |      010111 |
 
-* Extraer Los Relieves Del Carácter 
+** Extraer Los Relieves Del Carácter 
 Para conocer el estado de cada relieve solo basta con crear una
 mascara con la posición del relieve que nos interesa conocer, 
 cabe recordar que [[Sistema De Braillecells][los relieves empiezan desde la posición cero]]:
@@ -78,3 +79,6 @@ cabe recordar que [[Sistema De Braillecells][los relieves empiezan desde la posi
     return (character.dots & 1 << dot_pos);
   }
 #+end_src
+** Limitaciones 
+** Charset
+** Funciones

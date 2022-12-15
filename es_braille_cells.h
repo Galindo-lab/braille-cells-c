@@ -31,8 +31,8 @@
  * @param dots relieves del carácter 
  */
 typedef struct {
-  unsigned char charset : 2; /* no tiene uso */
-  unsigned char dots : 6;    /* los 6 puntos del caracter */
+  unsigned char charset : 2; 
+  unsigned char dots : 6;    /* los 6 puntos del caracter *
 } BrailleCell;
 
 /**
